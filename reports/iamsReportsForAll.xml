@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reports xmlns="http://www.tremolosecurity.com/tremoloConfig">
+    <report orgID="0e5d79bf-45e4-4f89-90d5-b625d627b5ef" name="My Open Requests" description="List of your currently open requests and the approvers responsible for acting on them" groupBy="id" groupings="true">
+        <paramater>currentUser</paramater>
+        <sql>select  approvals.id,approvals.label AS Approval ,approvals.createTS AS `Approval Opened`,workflows.name AS `Workflow Name`,workflows.requestReason AS `Request Reason`, concat(users.givenName,' ',users.sn) as `Subject Name`, users.mail as `Subject Email`, approvers.givenName as `First Name`,approvers.sn as `Last Name`,approvers.mail as `Email`  from approvals inner join workflows on approvals.workflow=workflows.id inner join users on workflows.userid=users.id inner join allowedApprovers on approvals.id=allowedApprovers.approval inner join approvers on approvers.id=allowedApprovers.approver where users.userKey=? AND approvedTS is null order by approvals.createTS ASC, approvals.id ASC</sql>
+        <headerFields>Approval</headerFields>
+        <headerFields>Subject Name</headerFields>
+        <headerFields>Subject Email</headerFields>
+        <headerFields>Workflow Name</headerFields>
+        <headerFields>Request Reason</headerFields>
+        <dataFields>First Name</dataFields>
+        <dataFields>Last Name</dataFields>
+        <dataFields>Email</dataFields>
+    </report>
+    <report orgID="0e5d79bf-45e4-4f89-90d5-b625d627b5ef" name="Approvals Completed by Me" description="All approvals you approved or denied" groupBy="wid" groupings="false">
+        <paramater>currentUser</paramater>
+        <sql>select  workflows.id AS wid, approvals.id AS aid,approvals.label AS Approval ,approvals.createTS AS `Approval Opened`,workflows.name AS `Workflow Name`,workflows.requestReason AS `Request Reason`, concat(users.givenName,' ',users.sn) as `Subject Name`, users.mail as `Subject Email`, approvers.givenName as `First Name`,approvers.sn as `Last Name`,approvers.mail as `Email`,IF(approvals.approved = 1, 'Approved', 'Rejected') AS `Approval Result`,approvals.approvedTS AS `Approved Date`,approvals.reason AS Reason from approvals inner join approvers on approvals.approver=approvers.id inner join workflows on workflows.id=approvals.workflow inner join users on users.id=workflows.userid WHERE approvers.userKey=? order by approvals.approvedTS DESC; </sql>
+        <dataFields>Workflow Name</dataFields>
+        <dataFields>Subject Name</dataFields>
+        <dataFields>Subject Email</dataFields>
+        <dataFields>Request Reason</dataFields>
+        <dataFields>Approval</dataFields>
+        <dataFields>Approval Result</dataFields>
+        <dataFields>Approved Date</dataFields>
+    </report>
+</reports>
