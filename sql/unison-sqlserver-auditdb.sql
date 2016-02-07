@@ -79,3 +79,9 @@ CREATE TABLE [dbo].[workflows](
 	[requestReason] [text] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY];
 
+ CREATE TABLE [dbo].[escalation] (
+   [id] [int] IDENTITY(1,1) NOT NULL,
+   [approval] [int] NOT NULL,
+   [whenTS] [datetime] NOT NULL,
+ ) ON [PRIMARY];
+
