@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <reports xmlns="http://www.tremolosecurity.com/tremoloConfig">
     <report orgID="0e46018b-77e4-4838-966f-62335ed4b67e" name="Open Approvals" description="Lists all of the approvals that are currently waiting action" groupBy="id" groupings="true">
